@@ -2,7 +2,7 @@
 
 trap "umount -t cifs -a; killall sleep; exit" TERM INT
 
-while read LINE; do
+cat /mounts | tr '\\' '/' | while read LINE; do
   SHARE=$(echo $LINE | cut -d ',' -f1)
   LOCAL=$(echo $LINE | cut -d ',' -f2)
   USERNAME=$(echo $LINE | cut -d ',' -f3)
@@ -13,7 +13,7 @@ while read LINE; do
   else
     mount.cifs "${SHARE}" "/folders/${LOCAL}" -o "uid=root,gid=root,iocharset=utf8,file_mode=0777,dir_mode=0777,noperm,guest" &
   fi
-done < /mounts
+done
 
 sleep 2147483647d &
 wait "$!"
