@@ -14,8 +14,8 @@
       text: `Enter the network shares which should be imported. These will placed in a <b>/folders</b> directory and shareable with other applications.`
     },
     {
-      type: `EditFileAsTable`,
-      name: `/mounts`,
+      type: `EditEnvironmentAsTable`,
+      name: `MOUNTS`,
       description: `Enter share names and credentials. Leave username and password blank if no authentication is required.`,
       headers: [
         {
@@ -33,7 +33,7 @@
           placeholder: `Guest`
         }
       ],
-      pattern: `{{V[0]}},{{V[1]}},{{V[2]}},{{V[3]}}
+      pattern: `{{V[0]}},{{V[1]}}/{{V[1]}},{{V[2]}},{{V[3]}}
 `,
       join: ``
     }
@@ -49,15 +49,17 @@
     },
     {
       type: `File`,
-      name: `/mounts`
+      name: `/mounts`,
+      value: `{{MOUNTS}}`
     },
     {
       type: `Directory`,
       name: `/folders`,
+      value: `MOUNTS`,
       shares: [
         {
-          name: `/`,
-          description: `Remote directories`
+          name: `{{V[1]}}`,
+          description: `{{V[1]}}`
         }
       ]
     },
